@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>SpringMVC</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+</head>
+<body>
+<form id="example">
+            <nobr>数学成绩</nobr>
+            <button type="button" onclick="getclass();">查询</button>
+    <table>
+        <tr>
+            <th>学号</th>
+            <th>姓名</th>
+            <th>性别</th>
+            <th>成绩</th>
+        </tr>
+        <tr v-for="student in students" >
+            <td>{{ student.stuno}}</td>
+            <td>{{ student.name}}</td>
+            <td>{{ student.sex}}</td>
+            <td>{{ student.score}}</td>
+        </tr>
+    </table>
+</form>
+<script src="./js/jquery-3.2.1.min.js"></script>
+<script src="./js/vue.min.js"></script>
+<script type="text/javascript">
+
+    var vr = new Vue({
+        el : '#example',
+        data : {
+            students : [{
+                stuno : '',
+                name  : '',
+                sex  : '',
+                score  : ''
+            }]
+        }
+    });
+
+    function getclass(){
+        $.ajax({
+            type:"POST",
+            url:"q.action",
+            dataType:"json",
+            success: function(data){
+                vr.students = data;
+                console.log("recv message:"+JSON.stringify(vr.students));
+            },
+            error: function(data, type, err){
+                console.log(type);
+                console.log(err);
+            }
+        });
+    }
+</script>
+</body>
+</html>
